@@ -3,6 +3,7 @@ import {connect }  		  from 'react-redux';
 import {fetchBook} 		  from '../actions';
 import 	{Field,reduxForm} from 'redux-form';
 import {Link} 			  from 'react-router-dom';
+import editBook from '../actions';
 
 class BookForm extends Component{
 	constructor(props)
@@ -16,11 +17,13 @@ class BookForm extends Component{
 		const {action} = this.props.match.params;
 		const {id} = this.props.match.params;
 		const title = action==="edit"?"Edit Book Information":"Add a Book";
+		this.setState({...this.state,title});
 
 		if(action==="edit")
 		{
 			this.props.fetchBook(id);
 		}
+		console.log(this.props.editBook);
 	}
 
 	componentDidUpdate()
@@ -29,22 +32,21 @@ class BookForm extends Component{
 		{
 			if(this.props.book && this.props.book.title)
 			{
-				this.props.change("title", this.props.book.title);
-				this.props.change("author", this.props.book.author);
-				this.props.change("isbn", this.props.book.isbn);
+				//this.props.change("title", this.props.book.title);
+				//this.props.change("author", this.props.book.author);
+				//this.props.change("isbn", this.props.book.isbn);
 			}
 		}
 	 }
 
 	renderField(field)
 	{	
-		console.log(field.value);
 		const {meta:{touched,error}} = field;
 		const className=`form-group ${touched && error ?'has-danger':''}`;
 		return(
 			<div className={className}>
 				<label>{field.label}: </label>
-				<input className="form-control" {...field.input} type="text"  />
+				<input className="form-control" {...field.input} type="text" />
 				<div className="text-help">
 					{touched ? error:""}
 				</div>
@@ -55,7 +57,7 @@ class BookForm extends Component{
 
 	onSubmit(values)
 	{
-
+		alert("holis");
 	}
 
 	render()
@@ -97,8 +99,14 @@ class BookForm extends Component{
 // //
 function validate(values)
 {
+	const errors = {};
+	if(!/^[a-z]{3,40}$/i.test(values.title))
+	{
+		errors.title = "Enter a title with at least 3 characters";
+	}
 
-}
+	return errors;
+}	
 
 function mapStateToProps(state)
 {
@@ -106,8 +114,8 @@ function mapStateToProps(state)
 }
 
 export default reduxForm({
-	form:'PostsNewForm',
+	form:'BooksEditForm',
 	validate
 })(
-	connect(mapStateToProps,{fetchBook})(BookForm)
+	connect(mapStateToProps,{fetchBook,editBook})(BookForm)
 );
