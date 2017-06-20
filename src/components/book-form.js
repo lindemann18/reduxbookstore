@@ -1,8 +1,8 @@
-import React,{Component} from 'react';
-import {connect } from 'react-redux';
-import {fetchBook} from '../actions';
+import React,{Component}  from 'react';
+import {connect }  		  from 'react-redux';
+import {fetchBook} 		  from '../actions';
 import 	{Field,reduxForm} from 'redux-form';
-import {Link} from 'react-router-dom';
+import {Link} 			  from 'react-router-dom';
 
 class BookForm extends Component{
 	constructor(props)
