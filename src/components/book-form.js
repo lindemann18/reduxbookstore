@@ -23,6 +23,19 @@ class BookForm extends Component{
 		}
 	}
 
+	componentDidUpdate()
+	 {
+	 	if(this.props.match.params.action==="edit")
+		{
+			if(this.props.book && this.props.book.title)
+			{
+				this.props.change("title", this.props.book.title);
+				this.props.change("author", this.props.book.author);
+				this.props.change("isbn", this.props.book.isbn);
+			}
+		}
+	 }
+
 	renderField(field)
 	{	
 		console.log(field.value);
@@ -81,7 +94,7 @@ class BookForm extends Component{
 	}
 
 }
-
+// //
 function validate(values)
 {
 
